@@ -5,5 +5,3 @@
 [build.environment]
   NPM_FLAGS = "--no-frozen-lockfile"
 
-[[plugins]]
-  package = "@netlify/next"
