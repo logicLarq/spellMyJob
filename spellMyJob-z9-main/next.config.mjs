@@ -1,4 +1,5 @@
-/** @type {import('next').NextConfig} */
+import { withNetlify } from '@netlify/next'
+
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -14,5 +15,4 @@ const nextConfig = {
   },
 }
 
-export default nextConfig
-// This file is used to configure Next.js settings.
+export default withNetlify(nextConfig)
