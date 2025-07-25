@@ -9,6 +9,7 @@ import time
 import threading
 import cohere
 import re
+from fastapi.responses import HTMLResponse
 
 # filepath: c:\Users\Asus\Desktop\spellMyJob\py-server\main.py
 from dotenv import load_dotenv
@@ -159,3 +160,14 @@ DO NOT include any explanation, markdown, or text outside the JSON object. Retur
 async def check_status(file: str):
     return analysis_results.get(file, {"progress": 0, "complete": False})
 
+@app.get("/", response_class=HTMLResponse)
+def homepage():
+    return """
+    <html>
+        <head><title>SpellMyJob API</title></head>
+        <body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+            <h1>👋 Welcome to SpellMyJob API</h1>
+            <p>This is the backend service. </p>
+        </body>
+    </html>
+    """
