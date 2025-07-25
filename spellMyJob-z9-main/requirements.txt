@@ -1,4 +1,3 @@
 # Only essential for deployment (Node.js/Next.js app):
 next
 react
-react-dom
