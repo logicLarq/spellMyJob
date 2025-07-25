@@ -7,6 +7,14 @@ import json
 from fastapi import Request
 import time
 import threading
+import cohere
+import re
+
+# filepath: c:\Users\Asus\Desktop\spellMyJob\py-server\main.py
+from dotenv import load_dotenv
+load_dotenv()
+# ...existing code...
+
 
 analysis_results = {}  # In-memory store for simplicity
 
@@ -72,20 +80,75 @@ async def analyze(request: Request):
     file_name = body.get("file")
 
     def process():
-        time.sleep(5)  # Simulate analysis delay
+        print(f"[ANALYSIS] Starting analysis for {file_name}")
         file_path = os.path.join(UPLOADS_DIR, file_name)
-        with open(file_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        raw_text = data["raw_text"]
-        # Run your analysis here
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            raw_text = data["raw_text"]
+
+            system_prompt = '''
+You are a resume analysis assistant. Given a resume, return ONLY a valid JSON object with these fields:
+{
+  "overallScore": int,
+  "strengths": [str, ...],
+  "improvements": [str, ...]
+}
+DO NOT include any explanation, markdown, or text outside the JSON object. Return ONLY the JSON object. If you cannot provide a value, use 0 for numbers and [] for lists.
+'''
+
+            co = cohere.Client(os.getenv("COHERE_API_KEY"))
+            try:
+                response = co.chat(
+                    message=raw_text,
+                    preamble=system_prompt
+                )
+                ai_result = response.text
+                print(f"[ANALYSIS] Raw AI response for {file_name}: {ai_result}")
+                # Remove markdown code block if present
+                ai_result_clean = re.sub(r"^```json|^```|```$", "", ai_result, flags=re.MULTILINE).strip()
+                try:
+                    parsed = json.loads(ai_result_clean)
+                except Exception:
+                    # Fallback: minimal valid object for frontend
+                    parsed = {
+                        "overallScore": 0,
+                        "strengths": [],
+                        "improvements": [],
+                        "error": "AI response could not be parsed"
+                    }
+                # Fill in missing fields with defaults
+                for key, default in [
+                    ("overallScore", 0),
+                    ("strengths", []),
+                    ("improvements", [])
+                ]:
+                    if key not in parsed:
+                        parsed[key] = default
+                print(f"[ANALYSIS] Analysis complete for {file_name}")
+            except Exception as e:
+                parsed = {
+                    "overallScore": 0,
+                    "strengths": [],
+                    "improvements": [],
+                    "error": str(e)
+                }
+                print(f"[ANALYSIS] Error during AI call for {file_name}: {e}")
+        except Exception as e:
+            parsed = {
+                "overallScore": 0,
+                "strengths": [],
+                "improvements": [],
+                "error": f"File or JSON error: {e}"
+            }
+            print(f"[ANALYSIS] Error loading file or JSON for {file_name}: {e}")
+
         analysis_results[file_name] = {
             "progress": 100,
             "complete": True,
-            "results": {
-                "summary": "Example AI summary",
-                "skills": ["Python", "FastAPI"],
-            },
+            "results": parsed,
         }
+        print(f"[ANALYSIS] analysis_results set for {file_name}")
 
     analysis_results[file_name] = {"progress": 0, "complete": False}
     threading.Thread(target=process).start()
