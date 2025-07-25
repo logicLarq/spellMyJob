@@ -26,11 +26,11 @@ export default function AnalyzePage() {
     }
 
     // Start analysis
-    axios.post("http://127.0.0.1:8000/analyze/", { file: jsonFile })
+    axios.post("https://spellmyjob.onrender.com/analyze/", { file: jsonFile })
       .then(() => {
         // Poll for status
         const poll = setInterval(() => {
-          axios.get(`http://127.0.0.1:8000/analyze/status?file=${jsonFile}`)
+          axios.get(`https://spellmyjob.onrender.com/analyze/status?file=${jsonFile}`)
             .then(res => {
               setAnalysisProgress(res.data.progress || 0)
               if (res.data.complete) {
