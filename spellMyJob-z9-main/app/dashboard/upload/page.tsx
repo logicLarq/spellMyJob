@@ -102,7 +102,7 @@ const sendToBackend = async () => {
     setIsUploading(true)
     setUploadProgress(0)
 
-    const response = await axios.post("http://127.0.0.1:8000/extract-resume/", formData, {
+    const response = await axios.post("https://spellmyjob.onrender.com/extract-resume/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -124,7 +124,7 @@ const sendToBackend = async () => {
     setIsUploading(false)
   }
 
-  const response = await axios.post("http://127.0.0.1:8000/extract-resume/", formData, {
+  const response = await axios.post("https://spellmyjob.onrender.com/extract-resume/", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
