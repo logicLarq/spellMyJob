@@ -22,7 +22,7 @@ SpellMyJob is a comprehensive AI-powered resume analysis platform that helps job
 
 ### 🛠 Technical Features
 - **Modern UI/UX**: Built with Next.js 15 and Tailwind CSS
-- **Responsive Design**: Mobile-first approach with beautiful UI components
+- **Responsive Design**: Mobile-first approach with beau    tiful UI components
 - **Real-time Updates**: WebSocket-like progress tracking
 - **File Management**: Automatic file processing and storage
 - **API-First Architecture**: RESTful API with FastAPI backend
