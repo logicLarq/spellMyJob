@@ -27,7 +27,7 @@ app = FastAPI()
 # Allow CORS from your Next.js frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:8000 "],  # Update with your frontend URL
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:8000 ", "https://spell-my-job-delta.vercel.app"],  # Update with your frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
