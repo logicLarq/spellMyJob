@@ -105,6 +105,7 @@ const sendToBackend = async () => {
     const response = await axios.post("https://spellmyjob.onrender.com/extract-resume/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        'Access-Control-Allow-Origin':  "https://spellmyjob.onrender.com",
       },
       onUploadProgress: (progressEvent) => {
         const percentCompleted = Math.round(
