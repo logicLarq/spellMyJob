@@ -1,7 +1,5 @@
 import type { Config } from "tailwindcss";
 
-// all in fixtures is set to tailwind v3 as interims solutions
-
 const config: Config = {
     darkMode: ["class"],
     content: [
@@ -62,12 +60,44 @@ const config: Config = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
+  			},
+  			// Harry Potter House Colors
+  			gryffindor: {
+  				red: '#740001',
+  				gold: '#d3a625',
+  				light: '#ae0001'
+  			},
+  			slytherin: {
+  				green: '#1a472a',
+  				silver: '#5d5d5d',
+  				light: '#2a623d'
+  			},
+  			ravenclaw: {
+  				blue: '#0e1a40',
+  				bronze: '#946b2d',
+  				light: '#222f5b'
+  			},
+  			hufflepuff: {
+  				yellow: '#ecb939',
+  				black: '#726255',
+  				light: '#f0c75e'
+  			},
+  			magical: {
+  				blue: '#7877c6',
+  				purple: '#6b46c1',
+  				gold: '#fbbf24',
+  				silver: '#9ca3af'
   			}
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		fontFamily: {
+  			'cinzel': ['Cinzel', 'serif'],
+  			'crimson': ['Crimson Text', 'serif'],
+  			'magical': ['Cinzel', 'serif']
   		},
   		keyframes: {
   			'accordion-down': {
@@ -85,11 +115,55 @@ const config: Config = {
   				to: {
   					height: '0'
   				}
+  			},
+  			'spell-glow': {
+  				'0%, 100%': {
+  					boxShadow: '0 0 10px rgba(120, 119, 198, 0.3)'
+  				},
+  				'50%': {
+  					boxShadow: '0 0 20px rgba(120, 119, 198, 0.6), 0 0 30px rgba(120, 119, 198, 0.3)'
+  				}
+  			},
+  			'wand-sparkle': {
+  				'0%': {
+  					transform: 'rotate(0deg) scale(1)',
+  					opacity: '1'
+  				},
+  				'50%': {
+  					transform: 'rotate(180deg) scale(1.2)',
+  					opacity: '0.8'
+  				},
+  				'100%': {
+  					transform: 'rotate(360deg) scale(1)',
+  					opacity: '1'
+  				}
+  			},
+  			'parchment-fade': {
+  				'0%': {
+  					backgroundPosition: '0% 50%'
+  				},
+  				'50%': {
+  					backgroundPosition: '100% 50%'
+  				},
+  				'100%': {
+  					backgroundPosition: '0% 50%'
+  				}
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+  			'spell-glow': 'spell-glow 2s ease-in-out infinite',
+  			'wand-sparkle': 'wand-sparkle 3s ease-in-out infinite',
+  			'parchment-fade': 'parchment-fade 4s ease infinite'
+  		},
+  		backgroundImage: {
+  			'parchment': 'linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 50%, #d4c4a8 100%)',
+  			'magical-glow': 'radial-gradient(circle, rgba(120, 119, 198, 0.3) 0%, transparent 70%)',
+  			'gryffindor': 'linear-gradient(135deg, #740001 0%, #ae0001 50%, #d3a625 100%)',
+  			'slytherin': 'linear-gradient(135deg, #1a472a 0%, #2a623d 50%, #5d5d5d 100%)',
+  			'ravenclaw': 'linear-gradient(135deg, #0e1a40 0%, #222f5b 50%, #946b2d 100%)',
+  			'hufflepuff': 'linear-gradient(135deg, #ecb939 0%, #f0c75e 50%, #726255 100%)'
   		}
   	}
   },

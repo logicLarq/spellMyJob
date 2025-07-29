@@ -89,14 +89,14 @@ async def analyze(request: Request):
             raw_text = data["raw_text"]
 
             system_prompt = '''
-You are a resume analysis assistant. Given a resume, return ONLY a valid JSON object with these fields:
-{
-  "overallScore": int,
-  "strengths": [str, ...],
-  "improvements": [str, ...]
-}
-DO NOT include any explanation, markdown, or text outside the JSON object. Return ONLY the JSON object. If you cannot provide a value, use 0 for numbers and [] for lists.
-'''
+                You are a resume analysis assistant. Given a resume, return ONLY a valid JSON object with these fields:
+                {
+                "overallScore": int,
+                "strengths": [str, ...],
+                "improvements": [str, ...]
+                }
+                DO NOT include any explanation, markdown, or text outside the JSON object. Return ONLY the JSON object. If you cannot provide a value, use 0 for numbers and [] for lists.
+            '''
 
             co = cohere.Client(os.getenv("COHERE_API_KEY"))
             try:
