@@ -11,8 +11,7 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  skipTrailingSlashRedirect: true,
-  distDir: 'out'
+  skipTrailingSlashRedirect: true
 };
 
 export default nextConfig;

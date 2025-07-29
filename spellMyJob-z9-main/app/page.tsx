@@ -149,7 +149,7 @@ export default function LandingPage() {
               <div className="w-16 h-16 bg-gradient-to-r from-gryffindor-red to-gryffindor-gold rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">
                 1
               </div>
-              <h3 className="text-xl font-magical font-semibold mb-2">Upload Your Scroll</h3>
+              <h3 className="text-white font-magical font-semibold mb-2">Upload Your Scroll</h3>
               <p className="text-white font-crimson">Simply upload your resume in PDF, DOC, or DOCX format</p>
             </div>
 
@@ -157,7 +157,7 @@ export default function LandingPage() {
               <div className="w-16 h-16 bg-gradient-to-r from-slytherin-green to-slytherin-silver rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">
                 2
               </div>
-              <h3 className="text-xl font-magical font-semibold mb-2">AI Enchantment</h3>
+              <h3 className="text-white font-magical font-semibold mb-2">AI Enchantment</h3>
               <p className="text-white font-crimson">Our AI analyzes and optimizes your resume with magical precision</p>
             </div>
 
@@ -165,7 +165,7 @@ export default function LandingPage() {
               <div className="w-16 h-16 bg-gradient-to-r from-ravenclaw-blue to-ravenclaw-bronze rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">
                 3
               </div>
-              <h3 className="text-xl font-magical font-semibold mb-2">Land Your Dream Job</h3>
+              <h3 className="text-white font-magical font-semibold mb-2">Land Your Dream Job</h3>
               <p className="text-white font-crimson">Get detailed insights and recommendations to ace your interviews</p>
             </div>
           </div>
