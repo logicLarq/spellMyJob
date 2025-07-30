@@ -74,21 +74,26 @@ function DashboardContent() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-transparent ">
       {/* Header */}
-      <header className="bg-white border-b">
-        <div className="px-6 py-4">
+      <header className="bg-gryffindor-red/10 sticky-header top-0 z-50 backdrop-blur-md">
+        <div className="px-20 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <Zap className="h-8 w-8 text-purple-600" />
-                <span className="text-2xl font-bold text-gray-900">SpellMyJob</span>
+              <Link href="/" className="flex items-center size-max space-x-4">
+                
+                <img
+                  src="/logo.png" // Replace with actual path
+                  alt="SpellMyJob Logo"
+                  className="h-10 w-auto"
+                />
+
               </Link>
-              <Badge className="bg-purple-100 text-purple-700">
+              <Badge className="bg-purple-100 text-gryffindor-gold-500">
                 {profile?.plan === "pro" ? "Pro Plan" : "Free Plan"}
               </Badge>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center text-white space-x-4">
               <Button variant="ghost" size="sm">
                 <Bell className="h-4 w-4" />
               </Button>
@@ -98,7 +103,7 @@ function DashboardContent() {
               <Button variant="ghost" size="sm" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4" />
               </Button>
-              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+              <div className="w-8 h-8 bg-gryffindor-gold rounded-full flex items-center justify-center text-white text-sm font-medium">
                 {profile?.firstName?.charAt(0) || user?.email?.charAt(0) || "U"}
               </div>
             </div>
@@ -109,41 +114,41 @@ function DashboardContent() {
       <div className="px-6 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, {profile?.firstName || "User"}!</h1>
-          <p className="text-gray-600">Here's your resume optimization dashboard</p>
+          <h1 className="text-8xl font-bold center-div text-gryffindor-gold mb-2">Welcome back, {profile?.firstName || "User"}!</h1>
+          <p className="text-ravenclaw-bronze center-div">Here's your resume optimization dashboard</p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 center-div">
+          <Card className="bg-slytherin-green/1 hover:animate-spell-glow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Resumes Analyzed</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm text-white font-medium">Resumes Analyzed</CardTitle>
+              <FileText className="h-4 w-4 text-gryffindor-light" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{resumes.length}</div>
+              <div className="text-2xl text-gryffindor-gold font-bold">{resumes.length}</div>
               <p className="text-xs text-muted-foreground">Total uploaded</p>
             </CardContent>
           </Card>
 
-          <Card>
+          {/* <Card className="bg-ravenclaw-blue/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Job Matches</CardTitle>
+              <CardTitle className="text-sm text-white font-medium">Job Matches</CardTitle>
               <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">47</div>
               <p className="text-xs text-muted-foreground">Across all roles</p>
             </CardContent>
-          </Card>
+          </Card> */}
 
-          <Card>
+          <Card className="bg-slytherin-green/10 hover:animate-spell-glow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Avg Match Score</CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm text-white font-medium">Avg Match Score</CardTitle>
+              <BarChart3 className="h-4 w-4 text-gryffindor-light " />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">85%</div>
+              <div className="text-2xl text-gryffindor-gold font-bold">85%</div>
               <p className="text-xs text-muted-foreground">+12% improvement</p>
             </CardContent>
           </Card>
@@ -151,15 +156,15 @@ function DashboardContent() {
           
         </div>
 
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList>
+        <Tabs defaultValue="overview" className="space-y-6 ">
+          <TabsList className="hover:animate-spell-glow bg-slytherin-green/10 rounded-lg">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="resumes">My Resumes</TabsTrigger>
             <TabsTrigger value="matches">Job Matches</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
+          <TabsContent value="overview" className="bg-transparent space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Quick Actions */}
               <Card>

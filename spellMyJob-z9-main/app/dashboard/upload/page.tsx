@@ -148,20 +148,24 @@ const sendToBackend = async () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-transparent">
       {/* Header */}
-      <header className="bg-white border-b">
+      <header className="bg-transparent ">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Link href="/dashboard" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+              <Link href="/dashboard" className="flex items-center space-x-2 text-white hover:text-gryffindor-light">
                 <ArrowLeft className="h-5 w-5" />
                 <span>Back to Dashboard</span>
               </Link>
             </div>
             <div className="flex items-center space-x-2">
-              <Zap className="h-6 w-6 text-purple-600" />
-              <span className="text-xl font-bold text-gray-900">SpellMyJob</span>
+              <img
+                src="/logo.png" // Replace with actual path
+                alt="SpellMyJob Logo"
+                className="h-10 w-auto"
+              />
+
             </div>
           </div>
         </div>
@@ -170,8 +174,8 @@ const sendToBackend = async () => {
       <div className="px-6 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Upload Your Resume</h1>
-            <p className="text-gray-600">Upload your resume to get AI-powered analysis and job matching</p>
+            <h1 className="text-3xl font-bold text-gryffindor-gold mb-2">Upload Your Resume</h1>
+            <p className="text-white">Upload your resume to get AI-powered analysis and job matching</p>
           </div>
 
           {!uploadComplete ? (
@@ -180,10 +184,10 @@ const sendToBackend = async () => {
                 <CardTitle>Resume Upload</CardTitle>
                 <CardDescription>Supported formats: PDF, DOC, DOCX (Max size: 10MB)</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent >
                 {!uploadedFile ? (
                   <div
-                    className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+                    className={`border-2 border-dashed bg-gryffindor-light/10 rounded-lg p-12 text-center transition-colors ${
                       dragActive
                         ? "border-purple-500 bg-purple-50"
                         : "border-gray-300 hover:border-purple-400 hover:bg-purple-50"
@@ -210,8 +214,8 @@ const sendToBackend = async () => {
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                      <FileText className="h-8 w-8 text-purple-600" />
+                    <div className="flex items-center space-x-4 p-4 bg-grey-600 rounded-lg">
+                      <FileText className="h-8 w-8 text-gryffindor-gold" />
                       <div className="flex-1">
                         <h4 className="font-semibold">{uploadedFile.name}</h4>
                         <p className="text-sm text-gray-600">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
@@ -234,7 +238,7 @@ const sendToBackend = async () => {
                       <Button
                         onClick={sendToBackend}
                         disabled={isUploading}
-                        className="w-full bg-purple-600 hover:bg-purple-700"
+                        className="w-full bg-gryffindor-red hover:bg-gryffindor-gold"
                       >
                         {isUploading ? "Uploading..." : "Upload & Analyze"}
                       </Button>

@@ -52,6 +52,14 @@ body {
     overflow: hidden;
     transition: color 0.3s;
   }
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
   .color-reveal::before {
     content: '';
     position: absolute;
@@ -63,6 +71,12 @@ body {
   }
   .color-reveal:hover::before, .color-reveal:focus::before {
     opacity: 1;
+  }
+
+  .center-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .color-reveal > * {
     position: relative;
