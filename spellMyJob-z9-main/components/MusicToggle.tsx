@@ -30,7 +30,7 @@ const MusicToggle = () => {
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-center space-y-3">
       {/* Help & Support Button */}
       <Link
-        href="linktr.ee/logiclarq" >   
+        href="https://linktr.ee/logiclarq" >   
         <button
             className="bg-gryffindor-gold hover:bg-ravenclaw-bronze  text-white p-3 rounded-full shadow-md transition-all"
             aria-label="Help and Support"
