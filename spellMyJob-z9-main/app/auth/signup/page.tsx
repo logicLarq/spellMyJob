@@ -74,25 +74,26 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent flex items-center justify-center p-4">
+    <div className="min-h-screen bg-trabsparent flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6">
             <img
-              src="/logo.png"
+              src="/logo.png" // Replace with actual path
               alt="SpellMyJob Logo"
               className="h-10 w-auto"
             />
+
           </Link>
           <h1 className="text-3xl font-bold text-gryffindor-gold mb-2">Create your account</h1>
           <p className="text-white">Start optimizing your resume with AI-powered insights</p>
         </div>
 
-        <Card className="border-2 bg-black text-white">
+        <Card className="border-2">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center text-white">Sign Up</CardTitle>
-            <CardDescription className="text-center text-white">Create your account to get started</CardDescription>
+            <CardTitle className="text-2xl text-center">Sign Up</CardTitle>
+            <CardDescription className="text-center">Create your account to get started</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {error && (
@@ -101,7 +102,7 @@ export default function SignUpPage() {
 
             <Button
               variant="outline"
-              className="w-full bg-transparent text-white border-white hover:bg-white hover:text-black"
+              className="w-full bg-transparent"
               onClick={handleGoogleSignUp}
               disabled={isLoading}
             >
@@ -128,17 +129,17 @@ export default function SignUpPage() {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full bg-gray-600" />
+                <Separator className="w-full" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-black px-2 text-white">Or continue with email</span>
+                <span className="bg-white px-2 text-gray-500">Or continue with email</span>
               </div>
             </div>
 
             <form onSubmit={handleSignUp} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName" className="text-white">First Name</Label>
+                  <Label htmlFor="firstName">First Name</Label>
                   <div className="relative">
                     <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
@@ -154,7 +155,7 @@ export default function SignUpPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName" className="text-white">Last Name</Label>
+                  <Label htmlFor="lastName">Last Name</Label>
                   <Input
                     id="lastName"
                     name="lastName"
@@ -168,7 +169,7 @@ export default function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-white">Email</Label>
+                <Label htmlFor="email">Email</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -185,7 +186,7 @@ export default function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-white">Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -209,7 +210,7 @@ export default function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-white">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -234,7 +235,7 @@ export default function SignUpPage() {
 
               <div className="flex items-center space-x-2">
                 <input type="checkbox" id="terms" className="rounded" required />
-                <Label htmlFor="terms" className="text-sm text-white">
+                <Label htmlFor="terms" className="text-sm">
                   I agree to the{" "}
                   <Link href="/terms" className="text-gryffindor-light hover:underline">
                     Terms of Service
@@ -252,8 +253,8 @@ export default function SignUpPage() {
             </form>
 
             <div className="text-center text-sm">
-              <span className="text-white">OR, Continue your Enchantment ---{`>`} </span>
-              <Link href="/auth/signin" className="text-gryffindor-red hover:underline hover:text-gryffindor-light font-medium">
+              <span className="text-gryffindor-gold">OR, Continue your Enchantment ---{`>`} </span>
+              <Link href="/auth/signin" className="text-gryffindor-red hover:underline font-medium">
                 Sign in
               </Link>
             </div>

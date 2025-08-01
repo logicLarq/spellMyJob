@@ -3,6 +3,7 @@
 import axios from "axios"
 
 import type React from "react"
+import router from "next/navigation"
 
 import { useState, useCallback } from "react"
 import { Button } from "@/components/ui/button"
@@ -11,6 +12,8 @@ import { Progress } from "@/components/ui/progress"
 import { Upload, FileText, CheckCircle, AlertCircle, ArrowLeft, Zap } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+
+
 
 export default function UploadPage() {
   const [dragActive, setDragActive] = useState(false)
@@ -45,6 +48,8 @@ export default function UploadPage() {
       handleFile(e.target.files[0])
     }
   }
+
+  
 
   const handleFile = (file: File) => {
     const allowedTypes = [
@@ -244,27 +249,19 @@ const sendToBackend = async () => {
                       </Button>
                     )}
 
-                    {(uploadProgress > 0 || isUploading) && (
-                      <div className="space-y-2 mt-4">
-                        <div className="flex justify-between text-sm">
-                          <span>{isUploading ? "Uploading..." : "Upload Complete"}</span>
-                          <span>{uploadProgress}%</span>
-                        </div>
-                        <Progress value={uploadProgress} className="w-full" />
-                      </div>
-                    )}
+                    
 
-                    {uploadComplete && !isUploading && (
+                    {/* {uploadComplete && !isUploading && (
                       <div className="space-y-4">
                         <div className="flex items-center space-x-2 text-green-600">
                           <CheckCircle className="h-5 w-5" />
                           <span className="font-medium">Upload successful!</span>
                         </div>
                         <Button onClick={proceedToAnalysis} className="w-full bg-purple-600 hover:bg-purple-700">
-                          Proceed to Analysis
+                          Proceed to 
                         </Button>
                       </div>
-                    )}
+                    )} */}
 
                   </div>
                 )}
@@ -279,13 +276,11 @@ const sendToBackend = async () => {
                   Your resume has been successfully uploaded and is ready for analysis.
                 </p>
                 <div className="space-y-3">
-                  <Button onClick={proceedToAnalysis} className="w-full bg-purple-600 hover:bg-purple-700">
+                  <Button onClick={proceedToAnalysis} className="w-full bg-hufflepuff-yellow hover:bg-ravenclaw-bronze">
                     Start AI Analysis
                   </Button>
-                  <Button variant="outline" className="w-full bg-transparent">
-                    Upload Another Resume
-                  </Button>
-                </div>
+                  
+                </div> 
               </CardContent>
             </Card>
           )}

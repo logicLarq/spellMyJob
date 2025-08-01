@@ -4,6 +4,9 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+// import jobs from "@data/jobs.json" // Adjust path as needed
+import PopupModal from '@/components/PopupModal'; // Adjust path as needed
+import NeonCard from "@/components/NeonCard"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -25,6 +28,8 @@ import { useAuth } from "@/hooks/use-auth"
 import { ProtectedRoute } from "@/components/protected-route"
 import { getUserResumes } from "@/lib/resume-storage"
 import type { Resume } from "@/lib/resume-storage"
+
+let res = 0
 
 function DashboardContent() {
   const { user, profile, signOut } = useAuth()
@@ -73,6 +78,8 @@ function DashboardContent() {
     { action: "Profile updated", time: "1 week ago", type: "profile" },
   ]
 
+  const [showNotifications, setShowNotifications] = useState(false);
+
   return (
     <div className="min-h-screen bg-transparent ">
       {/* Header */}
@@ -94,12 +101,20 @@ function DashboardContent() {
               </Badge>
             </div>
             <div className="flex items-center text-white space-x-4">
-              <Button variant="ghost" size="sm">
+              <Button onClick={() => setShowNotifications(true)}
+                  className="relative p-2 rounded-full hover:bg-white/10 transition"
+                  aria-label="Open Notifications" variant="ghost" size="sm" >
                 <Bell className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button onClick={() => setShowNotifications(true)}
+                  className="relative p-2 rounded-full hover:bg-white/10 transition"
+                  aria-label="Open Notifications" variant="ghost" size="sm">
                 <Settings className="h-4 w-4" />
               </Button>
+               <PopupModal isOpen={showNotifications} onClose={() => setShowNotifications(false)}>
+                <h2 className="text-xl font-semibold mb-2">🔔 Notifications</h2>
+                <p className="text-gray-300">Coming soon...</p>
+              </PopupModal>
               <Button variant="ghost" size="sm" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4" />
               </Button>
@@ -115,19 +130,19 @@ function DashboardContent() {
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-8xl font-bold center-div text-gryffindor-gold mb-2">Welcome back, {profile?.firstName || "User"}!</h1>
-          <p className="text-ravenclaw-bronze center-div">Here's your resume optimization dashboard</p>
+          <p className="text-white center-div">Here's your resume optimization dashboard</p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 center-div">
-          <Card className="bg-slytherin-green/1 hover:animate-spell-glow">
+          <Card className="border-2 border-amber-200 hover:border-slytherin-green hover:bg-gryffindor-gold  px-8 py-6  relative overflow-hidden transition-all duration-300 hover:scale-100 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group  bg-transparent text-white hover:text-black backdrop-blur-sm" >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm text-white font-medium">Resumes Analyzed</CardTitle>
-              <FileText className="h-4 w-4 text-gryffindor-light" />
+              <CardTitle className="text-sm text-white font-medium">Total Resumes</CardTitle>
+              <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl text-gryffindor-gold font-bold">{resumes.length}</div>
-              <p className="text-xs text-muted-foreground">Total uploaded</p>
+              <div className="text-2xl font-bold">{res}</div>
+              <p className="text-xs text-gryffindor-light ">Uploaded resumes</p>
             </CardContent>
           </Card>
 
@@ -141,15 +156,14 @@ function DashboardContent() {
               <p className="text-xs text-muted-foreground">Across all roles</p>
             </CardContent>
           </Card> */}
-
-          <Card className="bg-slytherin-green/10 hover:animate-spell-glow">
+          <Card className="border-2 border-amber-200 hover:border-slytherin-green hover:bg-gryffindor-gold  px-8 py-6  relative overflow-hidden transition-all duration-300 hover:scale-100 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group  bg-transparent text-white hover:text-black backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm text-white font-medium">Avg Match Score</CardTitle>
-              <BarChart3 className="h-4 w-4 text-gryffindor-light " />
+              <CardTitle className="text-sm text-white font-medium">Job Matches</CardTitle>
+              <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl text-gryffindor-gold font-bold">85%</div>
-              <p className="text-xs text-muted-foreground">+12% improvement</p>
+              <div className="text-2xl font-bold">{jobMatches.length}</div>
+              <p className="text-xs text-gryffindor-light ">Across all roles</p>
             </CardContent>
           </Card>
 
@@ -157,24 +171,24 @@ function DashboardContent() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6 ">
-          <TabsList className="hover:animate-spell-glow bg-slytherin-green/10 rounded-lg">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="resumes">My Resumes</TabsTrigger>
-            <TabsTrigger value="matches">Job Matches</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsList className=" bg-transparent center-div  ">
+            <TabsTrigger value="overview" className="hover:bg-transparent  px-3 py-1.5  relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group ">Overview</TabsTrigger>
+            <TabsTrigger value="resumes" className="hover:bg-transparent  px-3 py-1.5  relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group">My Resumes</TabsTrigger>
+            <TabsTrigger value="matches" className="hover:bg-transparent  px-3 py-1.5  relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group">Job Matches</TabsTrigger>
+            <TabsTrigger value="analytics" className="hover:bg-transparent  px-3 py-1.5  relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group">Analytics</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="bg-transparent space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Quick Actions */}
-              <Card>
+              <NeonCard>
                 <CardHeader>
                   <CardTitle>Quick Actions</CardTitle>
                   <CardDescription>Get started with your resume optimization</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Link href="/dashboard/upload">
-                    <Button className="w-full justify-start bg-purple-600 hover:bg-purple-700">
+                    <Button className="w-full justify-start bg-hufflepuff-yellow hover:bg-ravenclaw-bronze" onClick={() => res++}>
                       <Upload className="mr-2 h-4 w-4" />
                       Upload New Resume
                     </Button>
@@ -192,10 +206,10 @@ function DashboardContent() {
                     </Button>
                   </Link>
                 </CardContent>
-              </Card>
+              </NeonCard>
 
               {/* Recent Activity */}
-              <Card>
+              <NeonCard>
                 <CardHeader>
                   <CardTitle>Recent Activity</CardTitle>
                   <CardDescription>Your latest resume optimization activities</CardDescription>
@@ -223,11 +237,11 @@ function DashboardContent() {
                     ))}
                   </div>
                 </CardContent>
-              </Card>
+              </NeonCard>
             </div>
 
             {/* Top Job Matches */}
-            <Card>
+            <NeonCard>
               <CardHeader>
                 <CardTitle>Top Job Matches</CardTitle>
                 <CardDescription>Based on your latest resume analysis</CardDescription>
@@ -271,14 +285,14 @@ function DashboardContent() {
                   </Link>
                 </div>
               </CardContent>
-            </Card>
+            </NeonCard>
           </TabsContent>
 
           <TabsContent value="resumes" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">My Resumes</h2>
+              <h2 className="text-2xl text-white font-bold">My Resumes</h2>
               <Link href="/dashboard/upload">
-                <Button className="bg-purple-600 hover:bg-purple-700">
+                <Button className=" bg-hufflepuff-yellow hover:bg-ravenclaw-bronze">
                   <Upload className="mr-2 h-4 w-4" />
                   Upload New Resume
                 </Button>
@@ -290,23 +304,23 @@ function DashboardContent() {
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
               </div>
             ) : resumes.length === 0 ? (
-              <Card>
+              <NeonCard className="hover:scale-100">
                 <CardContent className="p-12 text-center">
-                  <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">No resumes uploaded yet</h3>
+                  <FileText className="mx-auto h-12 w-12 text-gryffindor-gold mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">No resumes uploaded yet</h3>
                   <p className="text-gray-600 mb-6">Upload your first resume to get started with AI-powered analysis</p>
                   <Link href="/dashboard/upload">
-                    <Button className="bg-purple-600 hover:bg-purple-700">
+                    <Button className=" bg-hufflepuff-yellow hover:bg-ravenclaw-bronze">
                       <Upload className="mr-2 h-4 w-4" />
                       Upload Resume
                     </Button>
                   </Link>
                 </CardContent>
-              </Card>
+              </NeonCard>
             ) : (
               <div className="grid gap-6">
                 {resumes.map((resume) => (
-                  <Card key={resume.id}>
+                  <NeonCard key={resume.id}>
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
@@ -355,7 +369,7 @@ function DashboardContent() {
                         </div>
                       </div>
                     </CardContent>
-                  </Card>
+                  </NeonCard>
                 ))}
               </div>
             )}
@@ -363,16 +377,16 @@ function DashboardContent() {
 
           <TabsContent value="matches" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Job Matches</h2>
-              <Button variant="outline">
-                <Settings className="mr-2 h-4 w-4" />
+              <h2 className="text-2xl text-white font-bold">Job Matches</h2>
+              <Button variant="outline" className=" bg-hufflepuff-yellow hover:bg-ravenclaw-bronze"> 
+                <Settings className="mr-2 h-4 w-4 " />
                 Filter Matches
               </Button>
             </div>
 
             <div className="grid gap-4">
               {jobMatches.map((match, index) => (
-                <Card key={index}>
+                <NeonCard key={index} className="hover:scale-100">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
@@ -397,16 +411,16 @@ function DashboardContent() {
                         </div>
                       </div>
                       <div className="flex flex-col space-y-2">
-                        <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                        <Button size="sm" className=" bg-hufflepuff-yellow hover:bg-ravenclaw-bronze">
                           View Details
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" className=" bg-transparent hover:bg-white hover:text-black">
                           Optimize Resume
                         </Button>
                       </div>
                     </div>
                   </CardContent>
-                </Card>
+                </NeonCard>
               ))}
             </div>
           </TabsContent>
@@ -415,7 +429,7 @@ function DashboardContent() {
             <h2 className="text-2xl font-bold">Chatbot</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
+              <NeonCard className="hover:scale-100">
                 <CardHeader>
                   <CardTitle>Match Score Trends</CardTitle>
                   <CardDescription>Your resume performance over time</CardDescription>
@@ -425,9 +439,9 @@ function DashboardContent() {
                     Chart visualization would go here
                   </div>
                 </CardContent>
-              </Card>
+              </NeonCard>
 
-              <Card>
+              <NeonCard className="hover:scale-100">
                 <CardHeader>
                   <CardTitle>Top Skills</CardTitle>
                   <CardDescription>Most in-demand skills for your roles</CardDescription>
@@ -445,7 +459,7 @@ function DashboardContent() {
                     ))}
                   </div>
                 </CardContent>
-              </Card>
+              </NeonCard>
             </div>
           </TabsContent>
         </Tabs>

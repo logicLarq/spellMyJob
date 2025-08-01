@@ -3,6 +3,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/hooks/use-auth"
+import ScrollProgressBar from '../components/ScrollProgressBar';
+import MusicToggle from "@/components/MusicToggle"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,7 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      
+      <ScrollProgressBar />
         <AuthProvider>{children}</AuthProvider>
+        <MusicToggle />
+        {/* Add any additional components or layout elements here */}
       </body>
     </html>
   )

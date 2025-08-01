@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Zap, CheckCircle, AlertTriangle, Lightbulb, Download, Share, RefreshCw } from "lucide-react"
 import Link from "next/link"
 import axios from "axios"
+import NeonCard from "@/components/NeonCard"
 
 export default function AnalyzePage() {
   const [analysisProgress, setAnalysisProgress] = useState(0)
@@ -16,6 +17,16 @@ export default function AnalyzePage() {
   const [analysisComplete, setAnalysisComplete] = useState(false)
   const [analysisResults, setAnalysisResults] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
+  const [chatInput, setChatInput] = useState("")
+  const [chatMessages] = useState<{ role: "user" | "ai"; text: string }[]>([
+    { role: "user", text: "Coming soon......" },
+    { role: "ai", text: "Coming soon......" }
+  ])
+  const [isChatLoading] = useState(false)
+  const [chatError] = useState<string | null>(null)
+
+  // Chat is hardcoded to "Coming soon......"
+  const handleSendMessage = () => {}
 
   useEffect(() => {
     const jsonFile = localStorage.getItem("uploadedJson")
@@ -25,6 +36,7 @@ export default function AnalyzePage() {
       return
     }
 
+    
     // Start analysis
     axios.post("https://spellmyjob.onrender.com/analyze/", { file: jsonFile })
       .then(() => {
@@ -54,6 +66,27 @@ export default function AnalyzePage() {
       })
   }, [])
 
+  const sendMessageToChatbot = async (message: string) => {
+  const jsonFile = localStorage.getItem("uploadedJson");
+  if (!jsonFile) {
+    throw new Error("No resume uploaded. Please upload a resume first.");
+  }
+
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/chat/", {
+      file: jsonFile,
+      message: message,
+    });
+
+    return response.data.response;
+  } catch (error) {
+    throw new Error("Failed to get response from chatbot.");
+  }
+};
+
+
+
+
   // UI for error
   if (error) {
     return (
@@ -72,19 +105,26 @@ export default function AnalyzePage() {
   // UI for progress
   if (isAnalyzing) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white border-b">
+      <div className="min-h-screen bg-transparent">
+        <header className="bg-transparent ">
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <Link href="/dashboard" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+                <Link href="/dashboard" className="flex items-center space-x-2 text-white hover:text-gryffindor-light">
                   <ArrowLeft className="h-5 w-5" />
                   <span>Back to Dashboard</span>
                 </Link>
               </div>
               <div className="flex items-center space-x-2">
-                <Zap className="h-6 w-6 text-purple-600" />
-                <span className="text-xl font-bold text-gray-900">SpellMyJob</span>
+                <Link href="/" className="flex items-center size-max space-x-4">
+                
+                  <img
+                    src="/logo.png" // Replace with actual path
+                    alt="SpellMyJob Logo"
+                    className="h-10 w-auto"
+                  />
+
+                </Link>
               </div>
             </div>
           </div>
@@ -92,23 +132,15 @@ export default function AnalyzePage() {
 
         <div className="px-6 py-8">
           <div className="max-w-2xl mx-auto">
-            <Card className="border-2">
+            <NeonCard className="border-2">
               <CardContent className="p-12 text-center">
                 <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <RefreshCw className="h-8 w-8 text-purple-600 animate-spin" />
+                  <RefreshCw className="h-8 w-8 text-gryffindor-gold animate-spin" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Analyzing Your Resume</h2>
-                <p className="text-gray-600 mb-8">
+                <h2 className="text-2xl font-bold text-gryffindor-light mb-4">Analyzing Your Resume</h2>
+                <p className="text-white mb-8">
                   Our AI is analyzing your resume content, structure, and matching it against job market data...
                 </p>
-
-                <div className="space-y-4">
-                  <div className="flex justify-between text-sm">
-                    <span>Analysis Progress</span>
-                    <span>{analysisProgress}%</span>
-                  </div>
-                  <Progress value={analysisProgress} className="w-full" />
-                </div>
 
                 <div className="mt-8 text-left">
                   <h3 className="font-semibold mb-4">What we're analyzing:</h3>
@@ -126,7 +158,7 @@ export default function AnalyzePage() {
                       <span>ATS compatibility</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RefreshCw className="h-4 w-4 text-purple-500 animate-spin" />
+                      <RefreshCw className="h-4 w-4 text-gryffindor-gold animate-spin" />
                       <span>Job role matching</span>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -136,7 +168,7 @@ export default function AnalyzePage() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </NeonCard>
           </div>
         </div>
       </div>
@@ -169,28 +201,27 @@ export default function AnalyzePage() {
       jobMatches: Array.isArray(analysisResults.jobMatches) ? analysisResults.jobMatches : [],
     }
     return (
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white border-b">
+      <div className="min-h-screen bg-transparent">
+        <header className="bg-trabsparent">
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <Link href="/dashboard" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+                <Link href="/dashboard" className="flex items-center space-x-2 text-white hover:text-gryffindor-light">
                   <ArrowLeft className="h-5 w-5" />
                   <span>Back to Dashboard</span>
                 </Link>
               </div>
               <div className="flex items-center space-x-4">
-                <Button variant="outline" size="sm">
-                  <Download className="h-4 w-4 mr-2" />
-                  Export Report
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Share className="h-4 w-4 mr-2" />
-                  Share
-                </Button>
                 <div className="flex items-center space-x-2">
-                  <Zap className="h-6 w-6 text-purple-600" />
-                  <span className="text-xl font-bold text-gray-900">SpellMyJob</span>
+                  <Link href="/" className="flex items-center size-max space-x-4">
+                
+                    <img
+                      src="/logo.png" // Replace with actual path
+                      alt="SpellMyJob Logo"
+                      className="h-10 w-auto"
+                    />
+
+                  </Link>
                 </div>
               </div>
             </div>
@@ -200,40 +231,39 @@ export default function AnalyzePage() {
         <div className="px-6 py-8">
           <div className="max-w-6xl mx-auto">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Resume Analysis Results</h1>
-              <p className="text-gray-600">Comprehensive analysis of your resume with actionable insights</p>
+              <h1 className="text-8xl center-div font-bold text-gryffindor-gold mb-2">Resume Analysis Results</h1>
+              <p className="text-white center-div">Comprehensive analysis of your resume with actionable insights</p>
             </div>
 
             {/* Overall Score Card - Centered */}
             <div className="flex justify-center mb-8">
               <div className="w-full max-w-xs">
-                <Card className="border-2">
+                <Card className="border-2 border-amber-200 hover:border-slytherin-green hover:bg-gryffindor-gold  px-8 py-6  relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group  bg-white/90 backdrop-blur-sm">
                   <CardHeader className="text-center">
                     <CardTitle className="text-sm font-medium text-gray-600">Overall Score</CardTitle>
-                    <div className="text-4xl font-bold text-purple-600">{results.overallScore}%</div>
-                    <Badge className="bg-purple-100 text-purple-700">{results.overallScore >= 80 ? "Excellent" : results.overallScore >= 60 ? "Good" : "Needs Improvement"}</Badge>
+                    <div className="text-4xl font-bold text-gryffindor-light">{results.overallScore}%</div>
+                    <Badge className="bg-transparent border-black text-black text-center hover:bg-gryffindor-light/30">{results.overallScore >= 80 ? "Excellent" : results.overallScore >= 60 ? "Good" : "Needs Improvement"}</Badge>
                   </CardHeader>
                 </Card>
               </div>
             </div>
 
             <Tabs defaultValue="overview" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="sections">Section Analysis</TabsTrigger>
-                <TabsTrigger value="matches">Job Matches</TabsTrigger>
-                <TabsTrigger value="improvements">Improvements</TabsTrigger>
+              <TabsList className="grid w-full bg-transparent center-div grid-cols-4">
+                <TabsTrigger value="overview" className="hover:bg-transparent  px-3 py-1.5  relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group ">Overview</TabsTrigger>
+                <TabsTrigger value="sections" className="hover:bg-transparent  px-3 py-1.5  relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group ">ChatBot</TabsTrigger>
+                <TabsTrigger value="improvements" className="hover:bg-transparent  px-3 py-1.5  relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group ">Improvements</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card>
+                  <Card className="border-2 border-amber-200 hover:border-slytherin-green hover:bg-gryffindor-gold  px-8 py-6  relative overflow-hidden transition-all duration-300 hover:scale-100 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group  bg-transparent text-white hover:text-black backdrop-blur-sm">
                     <CardHeader>
                       <CardTitle className="flex items-center space-x-2">
                         <CheckCircle className="h-5 w-5 text-green-500" />
                         <span>Strengths</span>
                       </CardTitle>
-                      <CardDescription>What your resume does well</CardDescription>
+                      <CardDescription className="text-gryffindor-light">What your resume does well</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-3">
@@ -247,19 +277,19 @@ export default function AnalyzePage() {
                     </CardContent>
                   </Card>
 
-                  <Card>
+                  <Card className="border-2 border-amber-200 hover:border-slytherin-green hover:bg-gryffindor-gold  px-8 py-6  relative overflow-hidden transition-all duration-300 hover:scale-100 hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] group  bg-transparent text-white hover:text-black backdrop-blur-sm">
                     <CardHeader>
                       <CardTitle className="flex items-center space-x-2">
-                        <Lightbulb className="h-5 w-5 text-yellow-500" />
+                        <Lightbulb className="h-5 w-5 text-white" />
                         <span>Quick Wins</span>
                       </CardTitle>
-                      <CardDescription>Easy improvements for immediate impact</CardDescription>
+                      <CardDescription className="text-gryffindor-light">Easy improvements for immediate impact</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-3">
                         {results.improvements.map((improvement: string, index: number) => (
                           <li key={index} className="flex items-start space-x-2">
-                            <Lightbulb className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+                            <Lightbulb className="h-4 w-4 text-white mt-0.5 flex-shrink-0" />
                             <span className="text-sm">{improvement}</span>
                           </li>
                         ))}
@@ -267,63 +297,49 @@ export default function AnalyzePage() {
                     </CardContent>
                   </Card>
                 </div>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Missing Keywords</CardTitle>
-                    <CardDescription>Add these keywords to improve your match rate</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {results.missingKeywords.map((keyword: string, index: number) => (
-                        <Badge key={index} variant="outline" className="text-sm">
-                          {keyword}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
               </TabsContent>
 
               <TabsContent value="sections" className="space-y-6">
-                <Card>
+                <NeonCard className="border-2 hover:scale-105">
                   <CardHeader>
-                    <CardTitle>Section-by-Section Analysis</CardTitle>
-                    <CardDescription>Detailed breakdown of each resume section</CardDescription>
+                    <CardTitle>AI Resume Chatbot</CardTitle>
+                    <CardDescription>Ask anything about your resume — our AI will help!</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      {results.sections.map((section: any, index: number) => (
-                        <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                          <div className="flex items-center space-x-4">
-                            <div
-                              className={`w-3 h-3 rounded-full ${
-                                section.status === "excellent"
-                                  ? "bg-green-500"
-                                  : section.status === "good"
-                                    ? "bg-blue-500"
-                                    : "bg-yellow-500"
-                              }`}
-                            />
-                            <div>
-                              <h4 className="font-semibold">{section.name}</h4>
-                              <p className="text-sm text-gray-600 capitalize">{section.status?.replace("-", " ")}</p>
-                            </div>
+                  <CardContent >
+                    <div className="space-y-4">
+                      <div className="h-64 overflow-y-auto p-4 border-gryffindor-gold rounded-lg bg-transparent space-y-2" id="chat-window">
+                        {chatMessages.map((msg, index) => (
+                          <div
+                            key={index}
+                            className={`text-sm p-2 rounded-md max-w-sm ${
+                              msg.role === "user"
+                                ? "bg-gryffindor-gold/30 text-black ml-auto"
+                                : "bg-gryffindor-light/30 text-black-800 mr-auto"
+                            }`}
+                          >
+                            {msg.text}
                           </div>
-                          <div className="flex items-center space-x-4">
-                            <div className="text-right">
-                              <div className="text-2xl font-bold">{section.score}%</div>
-                            </div>
-                            <div className="w-24">
-                              <Progress value={section.score} />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          value={chatInput}
+                          onChange={(e) => setChatInput(e.target.value)}
+                          onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+                          placeholder="Ask something like 'What are my strengths?'"
+                          className="flex-1 border rounded p-2 text-sm"
+                        />
+                        <Button className="bg-gryffindor-gold hover:bg-ravenclaw-bronze" disabled={isChatLoading}>
+                          {isChatLoading ? "..." : "Send"}
+                        </Button>
+                      </div>
+                      {chatError && <p className="text-red-600 text-sm">{chatError}</p>}
                     </div>
                   </CardContent>
-                </Card>
+                </NeonCard>
               </TabsContent>
+
 
               <TabsContent value="matches" className="space-y-6">
                 <div className="grid gap-6">

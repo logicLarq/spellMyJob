@@ -23,11 +23,8 @@ export default function LandingPage() {
             <a href="#features" className="px-4 py-2 rounded-lg hover:bg-gryffindor-red/8 hover:text-gryffindor-red transition-colors">
               Magical Features
             </a>
-            <a href="#pricing" className="px-4 py-2 rounded-lg hover:bg-slytherin-green/10 hover:text-slytherin-green transition-colors">
+            <a href="/pricing" className="px-4 py-2 rounded-lg hover:bg-slytherin-green/10 hover:text-slytherin-green transition-colors">
               Pricing
-            </a>
-            <a href="#testimonials" className="px-4 py-2 rounded-lg hover:bg-ravenclaw-blue/10 hover:text-ravenclaw-blue transition-colors">
-              Testimonials
             </a>
           </nav>
           <div className="flex items-center space-x-6 ml-6">
@@ -55,9 +52,8 @@ export default function LandingPage() {
               Magical Precision
             </span>
           </h1>
-          <p className="text-xl text-gray-700 mb-8 leading-relaxed font-crimson">
-            Cast the perfect spell on your career! Upload your resume and watch our AI wizardry analyze, match, and optimize it for any magical position. 
-            Get ATS-friendly enchantments, keyword optimization, and role-specific improvements in the blink of an eye.
+          <p className="text-xl text-gryffindor-light mb-8 leading-relaxed font-crimson">
+            Cast the perfect spell on your career! Upload your resume and watch our AI wizardry analyze.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link href="/auth/signin">

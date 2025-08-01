@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { Mail, Lock, Eye, EyeOff } from "lucide-react"
+import { Zap, Mail, Lock, Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { signInWithEmail, signInWithGoogle } from "@/lib/auth"
@@ -55,23 +55,23 @@ export default function SignInPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6">
+            
             <img
-              src="/logo.png"
+              src="/logo.png" // Replace with actual path
               alt="SpellMyJob Logo"
               className="h-10 w-auto"
               loading="lazy"
             />
+
           </Link>
           <h1 className="text-3xl font-bold text-gryffindor-gold mb-2">Welcome back</h1>
           <p className="text-white">Sign in to continue your Magical journey</p>
         </div>
 
-        <Card className="border-2 bg-black text-white">
+        <Card className="border-2 bg">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center text-white">Sign In</CardTitle>
-            <CardDescription className="text-center text-white">
-              Enter your credentials to access your account
-            </CardDescription>
+            <CardTitle className="text-2xl text-center">Sign In</CardTitle>
+            <CardDescription className="text-center">Enter your credentials to access your account</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {error && (
@@ -80,7 +80,7 @@ export default function SignInPage() {
 
             <Button
               variant="outline"
-              className="w-full bg-transparent text-white border-white hover:bg-white hover:text-black"
+              className="w-full bg-transparent"
               onClick={handleGoogleSignIn}
               disabled={isLoading}
             >
@@ -107,16 +107,16 @@ export default function SignInPage() {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full bg-gray-600" />
+                <Separator className="w-full" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-black px-2 text-white">Or continue with email</span>
+                <span className="bg-white px-2 text-gray-500">Or continue with email</span>
               </div>
             </div>
 
             <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-white">Email</Label>
+                <Label htmlFor="email">Email</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -132,7 +132,7 @@ export default function SignInPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-white">Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -157,34 +157,36 @@ export default function SignInPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <input type="checkbox" id="remember" className="rounded" />
-                  <Label htmlFor="remember" className="text-sm text-white">Remember me</Label>
+                  <Label htmlFor="remember" className="text-sm">
+                    Remember me
+                  </Label>
                 </div>
-                <Link href="/auth/forgot-password" className="text-sm text-purple-400 hover:underline">
+                <Link href="/auth/forgot-password" className="text-sm text-gryffindor-red hover:underline">
                   Forgot password?
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={isLoading}>
+              <Button type="submit" className="w-full bg-gryffindor-red hover:bg-gryffindor-light" disabled={isLoading}>
                 {isLoading ? "Signing in..." : "Sign In"}
               </Button>
             </form>
 
             <div className="text-center text-sm">
-              <span className="text-white">OR, Cast your First Spell ---{'>'} </span>
-              <Link href="/auth/signup" className="text-purple-400 hover:underline font-medium">
+              <span className="text-gryffindor-gold">OR, Cast your First Spell ---{'>'} </span>
+              <Link href="/auth/signup" className="text-gryffindor-red hover:underline hover:text-gryffindor-light font-medium">
                 Sign up
               </Link>
             </div>
           </CardContent>
         </Card>
 
-        <div className="text-center mt-6 text-xs text-white">
+        <div className="text-center mt-6 text-xs text-gray-500">
           By signing in, you agree to our{" "}
-          <Link href="/terms" className="underline hover:text-gray-300">
+          <Link href="/terms" className="underline hover:text-gray-700">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link href="/privacy" className="underline hover:text-gray-300">
+          <Link href="/privacy" className="underline hover:text-gray-700">
             Privacy Policy
           </Link>
         </div>

@@ -10,12 +10,16 @@ import threading
 import cohere
 import re
 from fastapi.responses import HTMLResponse
+import requests
 
 # filepath: c:\Users\Asus\Desktop\spellMyJob\py-server\main.py
 from dotenv import load_dotenv
 load_dotenv()
 # ...existing code...
 
+# HF_API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
+
+# headers = {"Authorization": f"Bearer os.getenv('HF_API_TOKEN')"}
 
 analysis_results = {}  # In-memory store for simplicity
 
@@ -155,6 +159,50 @@ async def analyze(request: Request):
     threading.Thread(target=process).start()
 
     return {"message": "Analysis started", "file": file_name}
+
+
+# @app.post("/chat/")
+# async def chat(request: Request):
+#     body = await request.json()
+#     file_name = body.get("file")
+#     user_message = body.get("message")
+
+#     file_path = os.path.join(UPLOADS_DIR, file_name)
+
+#     try:
+#         with open(file_path, "r", encoding="utf-8") as f:
+#             data = json.load(f)
+#         raw_text = data["raw_text"]
+#     except Exception as e:
+#         return {"error": f"Failed to load resume file: {str(e)}"}
+
+#     prompt = f"""You are an expert resume assistant.
+# Given this resume content:
+# \"\"\"{raw_text}\"\"\"
+
+# Answer this user question based on the resume:
+# \"\"\"{user_message}\"\"\"
+# If the answer is not available, respond politely saying that."""
+
+#     payload = {
+#         "inputs": prompt,
+#         "parameters": {
+#             "max_new_tokens": 200,
+#             "temperature": 0.7
+#         }
+#     }
+
+#     try:
+#         response = requests.post(HF_API_URL, headers=headers, json=payload, timeout=30)
+#         response.raise_for_status()
+#         result = response.json()
+
+#         # Extract text response
+#         ai_output = result[0]['generated_text'].split(user_message)[-1].strip()
+#         return {"response": ai_output}
+
+#     except Exception as e:
+#         return {"error": f"Failed to fetch from Hugging Face: {str(e)}"}
 
 @app.get("/analyze/status")
 async def check_status(file: str):
